@@ -8,10 +8,8 @@ typedef struct
   int dia, mes, ano, fabri, cnh;
   float valor;
 }Veiculo;
-float valorMulta(float a);
-void registra(Veiculo* ptr);
-void boasvindas();
-void alternativas();
+float valorMulta(float a); void registra(Veiculo* ptr);
+void boasvindas(); void alternativas();
 void linha();
 int main()
 {
@@ -29,34 +27,73 @@ int main()
     arq = fopen("multas.txt", "a"); //"a" se houver arquivos existentes, ele irá escrever abaixo, senão, irá criar um arquivo novo.
     switch(esc){
     case 1:
+        arq = fopen("multas.txt", "a"); //"a" se houver arquivos existentes, ele irá escrever abaixo, senão, irá criar um arquivo novo.
         registra(ptrveiculo);
-        getchar();
         valor = valorMulta(valor);
         system("cls");
         printf("Esses são os dados do condutor e do veículo:\n\nModelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\nValor da multa: %.2f\nConfirmar dados?\n1. Sim\n2. Não\n",ptrveiculo->modelo, ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
         scanf("%d", &esc);
         if(esc == 1){
-           fprintf(arq,"-----------------------------\nModelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\n-----------------------------\n",ptrveiculo->modelo,ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh);
+           fprintf(arq,"-----------------------------\nModelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\n\nValor da multa: %.2f\n-----------------------------\n",ptrveiculo->modelo,ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
             printf("Dados enviados ao arquivo de armazenamento!");
         } else if(esc == 2){
             printf("Confirmação negada!");}
+            fclose(arq);
+            break;
+
+    case 2:{
+        char linha[250];
+        int cnhProcurada;
+        int tem = 0; // Flag para verificar se encontrou alguma multa
+        arq = fopen("multas.txt", "r"); // O "r" irá somente ler o conteúdo do arquivo de texto.
+
+        printf("Digite o número da CNH que deseja consultar: ");
+        scanf("%d", &cnhProcurada);
+        getchar(); // Limpa o buffer do teclado
+
+        char cnhBusca[50];
+        sprintf(cnhBusca, "N° da CNH: %d", cnhProcurada);
+
+        printf("\n----- Multas Encontradas -----\n");
+
+        while (fgets(linha, sizeof(linha), arq) != NULL) {
+            if (strstr(linha, cnhBusca) != NULL) {
+                tem = 1; // Marcamos que encontramos a CNH
+                printf("%s", linha); // Imprime a linha com a CNH
+                // Continua imprimindo o registro completo até o delimitador
+                while (fgets(linha, sizeof(linha), arq) != NULL && strstr(linha, "-----------------------------") == NULL) {
+                    printf("%s", linha);
+                }
+                printf("-----------------------------\n");
+            }
         }
 
-    return 0;
-}
+        if (!tem) {
+            printf("Nenhuma multa encontrada.");
+        }
+        printf("----- Fim da Consulta -----\n");
+        fclose(arq);
+        break; }
+
+    default:
+        printf("Opção inválida!\n"); }
+    return 0; }
 
 
 void registra(Veiculo* car){
     int esc;
     printf("------Você escolheu registrar uma multa------\n");
     printf("Escreva o modelo do veículo: ");
-        fgets(car->modelo, 20, stdin); getchar();
+        fgets(car->modelo, 20, stdin);
+        strtok(car->modelo, "\n");
     printf("Escreva a placa do veículo: ");
-        fgets(car->placa, 10, stdin); getchar();
+        fgets(car->placa, 10, stdin);
+        strtok(car->placa, "\n");
     printf("Escreva o nome do condutor: ");
-        fgets(car->nome, 25, stdin); getchar();
+        fgets(car->nome, 25, stdin);
+        strtok(car->nome, "\n");
     printf("Escreva o n° da CNH do condutor: ");
-        scanf("%d", &car->cnh); getchar();
+        scanf("%d", &car->cnh);
 }
 float valorMulta(float a){
     int b;
@@ -69,5 +106,6 @@ float valorMulta(float a){
     case 3: return 130.16;
     case 4: return 88.38;
     default:
-        printf("Escolha errada! Tente novamente.");}
+        printf("Escolha errada! Tente novamente.");
+        return 0;}
     }

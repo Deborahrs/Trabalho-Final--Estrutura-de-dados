@@ -34,7 +34,7 @@ int main()
         printf("Esses são os dados do condutor e do veículo:\n\nModelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\nValor da multa: %.2f\nConfirmar dados?\n1. Sim\n2. Não\n",ptrveiculo->modelo, ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
         scanf("%d", &esc);
         if(esc == 1){
-           fprintf(arq,"-----------------------------\nModelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\n\nValor da multa: %.2f\n-----------------------------\n",ptrveiculo->modelo,ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
+           fprintf(arq, "Modelo do veículo: %s\nPlaca do veículo: %s\nNome do condutor: %s\nN° da CNH: %d\n\nValor da multa: %.2f\n-----------------------------\n",ptrveiculo->modelo,ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
             printf("Dados enviados ao arquivo de armazenamento!");
         } else if(esc == 2){
             printf("Confirmação negada!");}
@@ -42,7 +42,8 @@ int main()
             break;
 
     case 2:{
-        char linha[250];
+
+        char procura[250];
         int cnhProcurada;
         int tem = 0; // Flag para verificar se encontrou alguma multa
         arq = fopen("multas.txt", "r"); // O "r" irá somente ler o conteúdo do arquivo de texto.
@@ -52,16 +53,16 @@ int main()
         getchar(); // Limpa o buffer do teclado
 
         char cnhBusca[50];
-        sprintf(cnhBusca, "N° da CNH: %d", cnhProcurada);
+        sprintf(cnhBusca, "N° da CNH: %d", cnhProcurada); //O sprintf seria como um strcpy, mas podendo colocar mais algum argumento de sua opção.
 
         printf("\n----- Multas Encontradas -----\n");
 
-        while (fgets(linha, sizeof(linha), arq) != NULL) {
-            if (strstr(linha, cnhBusca) != NULL) {
-                tem = 1; // Marcamos que encontramos a CNH
-                printf("%s", linha); // Imprime a linha com a CNH
-                // Continua imprimindo o registro completo até o delimitador
-                while (fgets(linha, sizeof(linha), arq) != NULL && strstr(linha, "-----------------------------") == NULL) {
+        while (fgets(procura, sizeof(procura), arq) != NULL) { // O fgets vai colocar todos os elementos na variável procura até não ter mais nada "NULL"
+            if (strstr(procura, cnhBusca) != NULL) {
+                tem = 1; //Se tiver encontrado a CNH vai mudar o valor para 1
+                printf("%s", procura);
+
+                while (fgets(procura, sizeof(linha), arq) != NULL && strstr(linha, "-----------------------------") == NULL) {
                     printf("%s", linha);
                 }
                 printf("-----------------------------\n");
@@ -69,7 +70,7 @@ int main()
         }
 
         if (!tem) {
-            printf("Nenhuma multa encontrada.");
+            printf("Nenhuma multa encontrada.\n");
         }
         printf("----- Fim da Consulta -----\n");
         fclose(arq);

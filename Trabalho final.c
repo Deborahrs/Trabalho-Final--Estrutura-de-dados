@@ -6,98 +6,97 @@
 typedef struct{
   char placa[10], nome[25], modelo[20];
   int dia, mes, ano, cnh;
-}Veiculo; //defini uma estrutura com nome de "Veiculo", para guardar as informaÁıes recebidas do usu·rios.
+}Veiculo; //defini uma estrutura com nome de "Veiculo", para guardar as informa√ß√µes recebidas do usu√°rios.
 
-typedef struct elemento{ //defini uma estrutura com nome de "elemento", onde vai ficar as informaÁıes do veÌculo.
+typedef struct elemento{ //defini uma estrutura com nome de "elemento", onde vai ficar as informa√ß√µes do ve√≠culo.
     Veiculo* veic;
         struct elemento* prox;};
 
 typedef struct elemento Elemento; //Criei um elemento do tipo elemento
-Elemento* insere_elemento_final(Elemento* lista, Veiculo* veic); //ProtÛtipo para a funÁ„o de inserir o elemento no final da lista
-void mostra_lista(Elemento* lista, float valormulta); //ProtÛtipo da funÁ„o para mostrar a lista
-Elemento* criar_lista(); //FunÁ„o para iniciar a lista
-void busca_multa(Elemento* lista, int* cnhbuscada); //ProtÛtipo da funÁ„o de busca de multa
-float valorMulta(float a); //ProtÛtipo da funÁ„o de multa
-int* cnhpbusca; //Declarei um ponteiro do tipo inteiro para a funÁ„o de buscar multa por cnh
-void registra(Veiculo* ptr), boasvindas(),alternativas(), linha(), aguarde(); //ProtÛtipo das funÁıes feitas
+Elemento* insere_elemento_final(Elemento* lista, Veiculo* veic); //Prot√≥tipo para a fun√ß√£o de inserir o elemento no final da lista
+void mostra_lista(Elemento* lista, float valormulta); //Prot√≥tipo da fun√ß√£o para mostrar a lista
+Elemento* criar_lista(); //Fun√ß√£o para iniciar a lista
+void busca_multa(Elemento* lista, int* cnhbuscada); //Prot√≥tipo da fun√ß√£o de busca de multa
+float valorMulta(float a); //Prot√≥tipo da fun√ß√£o de multa
+int* cnhpbusca; //Declarei um ponteiro do tipo inteiro para a fun√ß√£o de buscar multa por cnh
+void registra(Veiculo* ptr), boasvindas(),alternativas(), linha(), aguarde(),enviar_arquivo(Elemento* lista, FILE* arquivo, float valormulta); //Prot√≥tipo das fun√ß√µes feitas
 int main(){
 
     setlocale(LC_ALL,"");
     FILE *arq; //Declarei o ponteiro do tipo FILE, para posteriormente colocar o nome que vai ser criado.
-    int esc; float valor; //Declarando a vari·vel "esc" para receber a escolha do usu·rio / Declarando a vari·vel para recever o valor da multa
-    Veiculo *ptrveiculo; //Um ponteiro do tipo "Veiculo" declarado, ele ser· usado para ser alterado globalmente
-    Elemento* lst = criar_lista(); //Aqui eu declarei o ponteiro "lst" e j· fiz ele receber a funÁ„o para criar lista
-    while(1){ //O programa vai rodar em um looping infinito, o comando para finalizar o looping fica dentro das funÁıes.
-    boasvindas(); //Puxei a funÁ„o de boas-vindas.
-    alternativas(); //Puxei as funÁıes de alternativas.
-    scanf("%d", &esc);//Aqui recebemos a escolha do usu·rio.
-    getchar(); //Aqui vamos limpar o buffer do teclado, pois o scanf deixa o "\n" como "rastro". Sem ele, nosso cÛdigo n„o vai rodar corretamente.
+    int esc; float valor; //Declarando a vari√°vel "esc" para receber a escolha do usu√°rio / Declarando a vari√°vel para recever o valor da multa
+    Veiculo *ptrveiculo; //Um ponteiro do tipo "Veiculo" declarado, ele ser√° usado para ser alterado globalmente
+    Elemento* lst = criar_lista(); //Aqui eu declarei o ponteiro "lst" e j√° fiz ele receber a fun√ß√£o para criar lista
+    while(1){ //O programa vai rodar em um looping infinito, o comando para finalizar o looping fica dentro das fun√ß√µes.
+    boasvindas(); //Puxei a fun√ß√£o de boas-vindas.
+    alternativas(); //Puxei as fun√ß√µes de alternativas.
+    scanf("%d", &esc);//Aqui recebemos a escolha do usu√°rio.
+    getchar(); //Aqui vamos limpar o buffer do teclado, pois o scanf deixa o "\n" como "rastro". Sem ele, nosso c√≥digo n√£o vai rodar corretamente.
     system("cls"); //Usado para limpar a tela
-    arq = fopen("multas.txt", "a"); //"a" se houver arquivos existentes, ele ir· escrever abaixo, sen„o, ir· criar um arquivo novo.
+    arq = fopen("multas.txt", "a"); //"a" se houver arquivos existentes, ele ir√° escrever abaixo, sen√£o, ir√° criar um arquivo novo.
     switch(esc){
     case 1:
-        ptrveiculo = malloc(sizeof(Veiculo)); /*Aqui eu peÁo para o programa alocar espaÁo na memÛria para o novo registro, eu poderia usar um condicional
-        para conferir se foi alocado, mas como È um programa pequeno n„o achei necess·rio*/
-        registra(ptrveiculo); //Puxo a funÁ„o para registrar o veÌculo, colocando o "ptrveiculo" para suprir o par‚metro.
-        lst = insere_elemento_final(lst, ptrveiculo); //Aqui "lst" vai receber o novo valor recebido pela funÁ„o de inserir elemento.
-        getchar(); //Usado para limpar o buffer do teclado, assim o programa sÛ vai dar seguimento no funcionamento apÛs o ENTER
-        valor = valorMulta(valor); //Puxei a funÁ„o para colocar o valor da vari·vel
-        system("cls"); //Usado para limpar a tela do CMD, somente para estÈtica. Deixando claro que isso n„o È recomendado, pois sÛ funciona em windows.
-        printf("------VocÍ escolheu registrar uma multa------\n");
-        printf("Esses s„o os dados do condutor e do veÌculo:\n\nModelo do veÌculo: %s\nPlaca do veÌculo: %s\nNome do condutor: %s\nN∞ da CNH: %d\n\nValor da multa: %.2f\n\nConfirmar dados?\n1. Sim\n2. N„o\n",ptrveiculo->modelo, ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor); //Aqui o usu·rio vai confirmar os dados;
-        scanf("%d", &esc); //Aqui eu reutilizo a vari·vel "esc", tendo em vista que o programa vai reinciar mesmo, n„o tem necessidade fazer outra sÛ para isso
+        ptrveiculo = malloc(sizeof(Veiculo)); /*Aqui eu pe√ßo para o programa alocar espa√ßo na mem√≥ria para o novo registro, eu poderia usar um condicional
+        para conferir se foi alocado, mas como √© um programa pequeno n√£o achei necess√°rio*/
+        registra(ptrveiculo); //Puxo a fun√ß√£o para registrar o ve√≠culo, colocando o "ptrveiculo" para suprir o par√¢metro.
+        lst = insere_elemento_final(lst, ptrveiculo); //Aqui "lst" vai receber o novo valor recebido pela fun√ß√£o de inserir elemento.
+        getchar(); //Usado para limpar o buffer do teclado, assim o programa s√≥ vai dar seguimento no funcionamento ap√≥s o ENTER
+        valor = valorMulta(valor); //Puxei a fun√ß√£o para colocar o valor da vari√°vel
+        system("cls"); //Usado para limpar a tela do CMD, somente para est√©tica. Deixando claro que isso n√£o √© recomendado, pois s√≥ funciona em windows.
+        printf("------Voc√™ escolheu registrar uma multa------\n");
+        printf("Esses s√£o os dados do condutor e do ve√≠culo:\n\nModelo do ve√≠culo: %s\nPlaca do ve√≠culo: %s\nNome do condutor: %s\nN¬∞ da CNH: %d\n\nValor da multa: %.2f\n\nConfirmar dados?\n1. Sim\n2. N√£o\n",ptrveiculo->modelo, ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor); //Aqui o usu√°rio vai confirmar os dados;
+        scanf("%d", &esc); //Aqui eu reutilizo a vari√°vel "esc", tendo em vista que o programa vai reinciar mesmo, n√£o tem necessidade fazer outra s√≥ para isso
         if(esc == 1){
-         printf("ConfirmaÁ„o aprovada!");
+         printf("Confirma√ß√£o aprovada!");
             system("cls");
             continue;
         }
         else if(esc == 2){
-            printf("ConfirmaÁ„o negada!");
-                free(ptrveiculo); //Aqui eu vou limpar as informaÁıes que foram colocadas no ponteiro, assim n„o ir· para lista.
+            printf("Confirma√ß√£o negada!");
+                free(ptrveiculo); //Aqui eu vou limpar as informa√ß√µes que foram colocadas no ponteiro, assim n√£o ir√° para lista.
                     sleep(5); //Aqui ele vai dar uma pausa de 5 segundos.
                         system("cls");
-                            continue;// Usado para voltar para o inÌcio do looping.
+                            continue;// Usado para voltar para o in√≠cio do looping.
                             }
 
     case 2:
         if(lst == NULL){
         printf("Nenhum registro do dia!\nPressione ENTER para reiniciar o programa.\n");
             getchar();
-                aguarde(); //Puxei a funÁ„o de contagem de segundos para reiniciar o programa, tambÈm para estÈtica.
+                aguarde(); //Puxei a fun√ß√£o de contagem de segundos para reiniciar o programa, tamb√©m para est√©tica.
                     system("cls");
                         continue;
         }else{
-        mostra_lista(lst, valor); //Puxei a funÁ„o para mostrar a lista de multas registradas atÈ o momento. Suprindo os dois par‚metros pedidos.
-            linha(); //Puxei a funÁ„o que fiz de linha, para n„o poluir muito o cÛdigo.
-                printf("Essas s„o as multas do dia!\nAperte na tela ENTER para reinciar o sistema.");}
+        mostra_lista(lst, valor); //Puxei a fun√ß√£o para mostrar a lista de multas registradas at√© o momento. Suprindo os dois par√¢metros pedidos.
+            linha(); //Puxei a fun√ß√£o que fiz de linha, para n√£o poluir muito o c√≥digo.
+                printf("Essas s√£o as multas do dia!\nAperte na tela ENTER para reinciar o sistema.");}
                     getchar(); // Limpar o buffer
-                        aguarde(); // De novo a funÁ„o aguardar
+                        aguarde(); // De novo a fun√ß√£o aguardar
                             system("cls"); //Limpar tela
                                 continue;
     case 3:
     printf("Digite a CNH para busca: ");
-        scanf("%d", &cnhpbusca); //Aqui eu coloco o dado inserido pelo usu·rio na vari·vel "cnhbusca".
-            busca_multa(lst, cnhpbusca); //Aqui eu puxo a funÁ„o de busca. Suprindo os dois par‚metros pedidos.
+        scanf("%d", &cnhpbusca); //Aqui eu coloco o dado inserido pelo usu√°rio na vari√°vel "cnhbusca".
+            busca_multa(lst, cnhpbusca); //Aqui eu puxo a fun√ß√£o de busca. Suprindo os dois par√¢metros pedidos.
                 getchar();
-                    aguarde(); //De novo a funÁ„o de aguardar
+                    aguarde(); //De novo a fun√ß√£o de aguardar
                         system("cls"); //Limpar tela
                             continue;
 
     case 4:
-        if(lst == NULL){ //Se n„o tiver nenhum registro na lista...
+        if(lst == NULL){ //Se n√£o tiver nenhum registro na lista...
         printf("Nenhum registro do dia!\nPressione ENTER para reiniciar o programa.\n");
             getchar(); //Limpa buffer
-            aguarde(); //FunÁ„o para aguardar
+            aguarde(); //Fun√ß√£o para aguardar
                 system("cls");
                     continue;}
-            printf("VocÍ escolheu enviar as multas para o arquivo de registro.\n");
-                       fprintf(arq,"-----------------------------\nModelo do veÌculo: %s\nPlaca do veÌculo: %s\nNome do condutor: %s\nN∞ da CNH: %d\nValor da multa: %.2f\n9-----------------------------\n",ptrveiculo->modelo,ptrveiculo->placa, ptrveiculo->nome, ptrveiculo->cnh, valor);
-                        //^ Aqui eu usei o comando "fprint" para mandar os dados para o veÌculo
-                        printf("\nOs registros foram enviados ao armazenamento!\nO programa ir· encerrar em 5 segundos...");
+            printf("Voc√™ escolheu enviar as multas para o arquivo de registro.\n");
+                enviar_arquivo(lst, arq, valor);
+                        printf("\nOs registros foram enviados ao armazenamento!\nO programa ir√° encerrar em 5 segundos...");
                             sleep(5);
                                 return 0;
     default:
-        printf("Escolha inv·lida, por favor escolha novamente.\n");
+        printf("Escolha inv√°lida, por favor escolha novamente.\n");
             aguarde();
                 system("cls");
                     continue;
@@ -107,23 +106,33 @@ int main(){
     return 0;
 }
 
+void enviar_arquivo(Elemento* lista, FILE* arquivo, float valormulta){
+    Elemento* ptlista = lista;
+
+    while(ptlista != NULL){
+    fprintf(arquivo,"-----------------------------\nModelo do ve√≠culo: %s\nPlaca do ve√≠culo: %s\nNome do condutor: %s\nN¬∞ da CNH: %d\nValor da multa: %.2f\n9-----------------------------\n",ptlista->veic->modelo,ptlista->veic->placa,ptlista->veic->nome,ptlista->veic->cnh, valormulta);
+        //^ Aqui eu usei o comando "fprint" para mandar os dados para o ve√≠culo
+        ptlista = ptlista->prox;
+    }
+}
+
 void busca_multa(Elemento* lista, int* cnhbuscada){
     Elemento* ptlista = lista; int i=0; //Criei um ponteiro para a lista. / E declarei outra local para contar as multas.
 
-    while(ptlista != NULL){ //Enquanto o ponteiro n„o apontar para o NULL da lista.
-        if(ptlista->veic->cnh == cnhbuscada){ //Condicional para ver se a cnhbuscada È igual a que est· na nos dados
+    while(ptlista != NULL){ //Enquanto o ponteiro n√£o apontar para o NULL da lista.
+        if(ptlista->veic->cnh == cnhbuscada){ //Condicional para ver se a cnhbuscada √© igual a que est√° na nos dados
         printf("Modelo do carro: %s", ptlista->veic->modelo);
-        printf("Placa do veÌculo: %s", ptlista->veic->placa);
+        printf("Placa do ve√≠culo: %s", ptlista->veic->placa);
         printf("Nome do condutor: %s", ptlista->veic->nome);
         printf("CNH do condutor: %d", ptlista->veic->cnh);
         printf("\n------------------\n"); i++; //Complementa o i para contar a quantidade de multa
         }
-        ptlista = ptlista->prox; //Ponteiro vai para a prÛxima posiÁ„o da lista.
+        ptlista = ptlista->prox; //Ponteiro vai para a pr√≥xima posi√ß√£o da lista.
         }
         getchar();
 
-        if(i == 0){ //Se o i n„o foi complementado na condicional anterior, vai cair nessa condicional
-            printf("N„o h· multas registradas nessa placa!\nPressione ENTER para reiniciar o programa.");
+        if(i == 0){ //Se o i n√£o foi complementado na condicional anterior, vai cair nessa condicional
+            printf("N√£o h√° multas registradas nessa placa!\nPressione ENTER para reiniciar o programa.");
                 getchar();
                 }
             }
@@ -132,34 +141,34 @@ void busca_multa(Elemento* lista, int* cnhbuscada){
 void mostra_lista(Elemento* lst, float valormulta){
     Elemento* ptlista = lst; //Ponteiro para percorrer a lista
 
-    while(ptlista != NULL){ //Enquanto o ponteiro n„o apontar para o final da lista
+    while(ptlista != NULL){ //Enquanto o ponteiro n√£o apontar para o final da lista
         printf("Modelo do carro: %s", ptlista->veic->modelo);
-        printf("Placa do veÌculo: %s", ptlista->veic->placa);
+        printf("Placa do ve√≠culo: %s", ptlista->veic->placa);
         printf("Nome do condutor: %s", ptlista->veic->nome);
         printf("CNH do condutor: %d", ptlista->veic->cnh);
         printf("\nValor da multa: %.2f", valormulta);
         linha();
-            ptlista = ptlista->prox; //Pula para a prÛxima posiÁ„o da lista
+            ptlista = ptlista->prox; //Pula para a pr√≥xima posi√ß√£o da lista
 
     }
 }
 
-Elemento* criar_lista(){ //FunÁ„o para iniciar a lista.
+Elemento* criar_lista(){ //Fun√ß√£o para iniciar a lista.
     return NULL;}
 
 Elemento* insere_elemento_final(Elemento* lista, Veiculo* veic){
     Elemento* novo = malloc(sizeof(Elemento)); //Esse elemento vai ser usado para apontar para os valores da lista.
-    novo->veic = veic; //O ponteiro novo vai receber os dados do veÌculos
+    novo->veic = veic; //O ponteiro novo vai receber os dados do ve√≠culos
         novo->prox = NULL;
 
     if(lista == NULL){ //Se a lista estiver vazia
-            return novo; //Ele ir· retornar o novo elemento.
+            return novo; //Ele ir√° retornar o novo elemento.
     }
     Elemento* atual = lista; //Usado para percorrer a lista.
-    while(atual->prox != NULL){ //Usado para chegar no final da lista, quando o prÛximo foi nulo, para o while
+    while(atual->prox != NULL){ //Usado para chegar no final da lista, quando o pr√≥ximo foi nulo, para o while
         atual = atual->prox;
     }
-    atual->prox = novo; //Aqui o valor do novo registro È colocado no final da lista.
+    atual->prox = novo; //Aqui o valor do novo registro √© colocado no final da lista.
         return lista; //Retorna a lista.
 
 
@@ -168,20 +177,20 @@ Elemento* insere_elemento_final(Elemento* lista, Veiculo* veic){
 
 void registra(Veiculo* car){
     int esc;
-    printf("------VocÍ escolheu registrar uma multa------\n");
-    printf("Escreva o modelo do veÌculo: ");
+    printf("------Voc√™ escolheu registrar uma multa------\n");
+    printf("Escreva o modelo do ve√≠culo: ");
         fgets(car->modelo, 20, stdin); //Recebe os dados e coloca no car->modelo
-    printf("Escreva a placa do veÌculo: ");
+    printf("Escreva a placa do ve√≠culo: ");
         fgets(car->placa, 10, stdin); //Recebe os dados e coloca no car->placa
     printf("Escreva o nome do condutor: ");
         fgets(car->nome, 25, stdin); //Recebe os dados e coloca no car->nome
-    printf("Escreva o n∞ da CNH do condutor: ");
+    printf("Escreva o n¬∞ da CNH do condutor: ");
         scanf("%d", &car->cnh); //Recebe os dados e coloca no car->cnh
 }
 float valorMulta(float a){
-    int b; //Declarei a vari·vel localmente somente para receber a escolha.
-    printf("Escolha o peso da infraÁ„o: \n");
-    printf("1.GravÌssima    2.Grave     3.MÈdia     4.Leve\n");
+    int b; //Declarei a vari√°vel localmente somente para receber a escolha.
+    printf("Escolha o peso da infra√ß√£o: \n");
+    printf("1.Grav√≠ssima    2.Grave     3.M√©dia     4.Leve\n");
         scanf("%d", &b);
         switch(b){
     case 1: return 293.47;
